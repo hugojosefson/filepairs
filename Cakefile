@@ -16,9 +16,7 @@ prodCoffeeOpts = "--bare --output #{prodTargetJsDir} --compile #{prodTargetCoffe
 testCoffeeOpts = "--output #{testTargetJsDir}"
 
 prodCoffeeFiles = [
-    'intro'
-    'core'
-    'outro'
+    'orphaned'
 ]
 
 task 'build', 'Build a single JavaScript file from prod files', ->
