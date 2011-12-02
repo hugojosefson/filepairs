@@ -1,0 +1,11 @@
+{
+    "name":         "filepairs",
+    "description":  "Utility for working with pairs of files, e.g. JPG and NEF files from a camera.",
+    "keywords":     ["files", "pairs", "jpeg", "jpg", "nef", "raw", "camera"],
+    "author":       "hugojosefson",
+    "version":      "0.0.1",
+    "licenses": [{
+        "type":       "MIT",
+        "url":        "http://opensource.org/licenses/mit-license.php"
+    }]
+}
