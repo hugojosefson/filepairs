@@ -1,6 +1,3 @@
-this stuff works, and tests work.
-cake watch
-copy orphaned.coffee and package.json from master.
 make sure orphaned.js is executed by tests.
 write simple test for orphaned.js.
 refactor orphaned.coffee while writing more tests for refactored code.
