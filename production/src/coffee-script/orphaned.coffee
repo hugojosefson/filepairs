@@ -11,5 +11,5 @@ shortNef = (filename) -> filename.replace(nefRegEx, '')
 orphanedNefs = (nef for nef in nefs when !(shortNef(nef) in jpegShorts))
 
 for nef in orphanedNefs
-    console.log nef
+  console.log nef
 
