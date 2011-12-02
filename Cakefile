@@ -19,6 +19,7 @@ testCoffeeOpts = "--output #{testTargetJsDir}"
 
 prodCoffeeFiles = [
     'intro'
+    'orphaned'
     'core'
     'outro'
 ]
