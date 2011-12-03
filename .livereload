@@ -17,5 +17,5 @@
 # reload the whole page when images (png, jpg, gif) change
 #config.apply_images_live = false
 
-# wait 100ms for more changes before reloading a page
-#config.grace_period = 0.1
+# wait 200ms for more changes before reloading a page
+config.grace_period = 0.2
