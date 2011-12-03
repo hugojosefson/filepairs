@@ -70,7 +70,7 @@ task 'build', 'Build a single JavaScript file from prod files', ->
         util.log message
         displayNotification message
         fs.unlink prodTargetCoffeeFile, (err) -> handleError(err) if err
-        invoke 'uglify'
+#        invoke 'uglify'
 
 task 'watch:test', 'Watch test specs and build changes', ->
   invoke 'build:test'
