@@ -78,7 +78,7 @@ task 'watch:test', 'Watch test specs and build changes', ->
 
   fs.readdir testSrcCoffeeDir, (err, files) ->
     handleError(err) if err
-    for file in files then do (file) ->
+    for file in files when /\.coffee$/.exec(file) then do (file) ->
       fs.watchFile "#{testSrcCoffeeDir}/#{file}", (curr, prev) ->
         if +curr.mtime isnt +prev.mtime
           coffee testCoffeeOpts, "#{testSrcCoffeeDir}/#{file}"
@@ -87,7 +87,7 @@ task 'build:test', 'Build individual test specs', ->
   util.log 'Building test specs'
   fs.readdir testSrcCoffeeDir, (err, files) ->
     handleError(err) if err
-    for file in files then do (file) ->
+    for file in files when /\.coffee$/.exec(file) then do (file) ->
       coffee testCoffeeOpts, "#{testSrcCoffeeDir}/#{file}"
 
 task 'uglify', 'Minify and obfuscate', ->
