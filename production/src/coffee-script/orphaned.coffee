@@ -21,7 +21,10 @@ class Orphaned
     (file for file in files when @nefRegEx.test(file))
 
   extractOrphanedNefs: (jpegShorts, nefs) ->
-    (nef for nef in nefs when !(@shortNef(nef) in jpegShorts))
+    (nef for nef in nefs when !(@findNewLocationForNefInJpegShorts(nef, jpegShorts)))
+
+  findNewLocationForNefInJpegShorts: (nef, jpegShorts) ->
+    @shortNef(nef) in jpegShorts
 
   shortNef: (filename) -> filename.replace(@nefRegEx, '')
 
