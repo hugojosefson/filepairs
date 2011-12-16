@@ -12,7 +12,7 @@ describe 'Orphaned', ->
     it 'should create an Orphaned instance', ->
       orphaned = new Orphaned()
       expect(orphaned).toBeTruthy()
-    it 'should have a go() method', ->
+    it 'should have a printOrphanedNefsInDir() method', ->
       orphaned = new Orphaned()
-      expect(orphaned.go).toBeTruthy()
-      expect(typeof orphaned.go).toEqual('function')
+      expect(orphaned.printOrphanedNefsInDir).toBeTruthy()
+      expect(typeof orphaned.printOrphanedNefsInDir).toEqual('function')
