@@ -36,3 +36,19 @@ describe 'Orphaned', ->
       orphaned = new Orphaned()
       orphanedNefs = orphaned.findOrphanedNefs ['aaa.jpg', 'bbb.jpg', 'aaa.nef', 'bbb.nef']
       expect(orphanedNefs).toEqual []
+    it 'should find nothing if same jpg and nef files, regardless of order', ->
+      orphaned = new Orphaned()
+      orphanedNefs = orphaned.findOrphanedNefs ['aaa.jpg', 'bbb.jpg', 'aaa.nef', 'ccc.nef', 'ccc.jpg', 'bbb.nef']
+      expect(orphanedNefs).toEqual []
+    it 'should find nothing if same one orphaned jpg', ->
+      orphaned = new Orphaned()
+      orphanedNefs = orphaned.findOrphanedNefs ['aaa.jpg', 'bbb.jpg', 'aaa.nef', 'ccc.nef', 'ccc.jpg']
+      expect(orphanedNefs).toEqual []
+    it 'should find aaa.nef if aaa.jpg is deleted', ->
+      orphaned = new Orphaned()
+      orphanedNefs = orphaned.findOrphanedNefs ['bbb.jpg', 'aaa.nef', 'ccc.nef', 'ccc.jpg', 'bbb.nef']
+      expect(orphanedNefs).toEqual ['aaa.nef']
+    it 'should find all nefs if all jpg\'s are deleted', ->
+      orphaned = new Orphaned()
+      orphanedNefs = orphaned.findOrphanedNefs ['aaa.nef', 'ccc.nef', 'bbb.nef']
+      expect(orphanedNefs).toEqual ['aaa.nef', 'ccc.nef', 'bbb.nef']
