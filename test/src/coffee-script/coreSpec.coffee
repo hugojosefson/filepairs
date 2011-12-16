@@ -16,3 +16,8 @@ describe 'Orphaned', ->
       orphaned = new Orphaned()
       expect(orphaned.printOrphanedNefsInDir).toBeTruthy()
       expect(typeof orphaned.printOrphanedNefsInDir).toEqual('function')
+    it 'should find nothing if no files', ->
+      orphaned = new Orphaned()
+      orphaned.extractFilesFromDir = (dir) -> []
+      files = orphaned.findOrphanedNefsInDir()
+      expect(files).toEqual([])
