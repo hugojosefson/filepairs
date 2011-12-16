@@ -1,11 +1,11 @@
 class Orphaned
   constructor: (@dir = '.') ->
+    @fs = require 'fs'
     @jpegRegEx = /\.jpe?g$/i
     @nefRegEx = /\.nef$/i
 
   go: ->
-    fs = require 'fs'
-    files = fs.readdirSync @dir
+    files = @extractFilesFromDir @dir
     jpegShorts = (file.replace(@jpegRegEx, '') for file in files when @jpegRegEx.test(file))
     nefs = (file for file in files when @nefRegEx.test(file))
 
@@ -15,3 +15,5 @@ class Orphaned
     for nef in orphanedNefs
       console.log nef
 
+  extractFilesFromDir: (dir) ->
+    @fs.readdirSync @dir
