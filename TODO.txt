@@ -1,3 +1,2 @@
-make sure orphaned.js is executed by tests.
-write simple test for orphaned.js.
-refactor orphaned.coffee while writing more tests for refactored code.
+Make it understand subdirectories.
+Give a result of where to move nefs, or delete if a nef is mentioned without destination.
