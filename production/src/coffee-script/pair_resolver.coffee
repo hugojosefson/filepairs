@@ -42,8 +42,8 @@ class PairResolver
       cb(errors, {queue, actions})
     )
 
-    isJpeg = (file) -> path.extname(file) in ['.jpeg', '.jpg']
-    isNef = (file) -> path.extname(file) is '.nef'
+    isJpeg = (file) -> /\.jpe?g$/i.test path.extname(file)
+    isNef = (file) -> /\.nef$/i.test path.extname(file)
 
 module.exports = PairResolver
 
