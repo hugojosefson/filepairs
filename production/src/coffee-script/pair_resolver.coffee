@@ -31,7 +31,7 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
     return true
   )
   .on('file', (file, stat) ->
-    console.log "Got file: #{file}"
+#    console.log "Got file: #{file}"
     if isJpeg file
       dirname = path.dirname file
       shortname = shortName file
@@ -70,7 +70,7 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
 
   defineActions = (queue, actions) ->
     for nef, shortName of queue.nefToShortName
-      console.log "defineActions: {nef, shortName} = #{JSON.stringify({nef, shortName})}"
+#      console.log "defineActions: {nef, shortName} = #{JSON.stringify({nef, shortName})}"
       if queue.jpegShortNameToDirNames.hasOwnProperty(shortName)
         jpegDirNames = queue.jpegShortNameToDirNames[shortName]
         nefDirName = path.dirname nef
@@ -89,7 +89,7 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
     for shortname, dirs of queue.jpegShortNameToDirNames when dirs?.length > 1
       cleanDirs = _.reject dirs, (dir) ->
         if /Originals$/.test(dir) && dir.replace(/\/?Originals$/, '') in dirs
-          console.log "Skipping #{shortname}.jpg in #{dir} because it's in the parent directory too."
+#          console.log "Skipping #{shortname}.jpg in #{dir} because it's in the parent directory too."
           true
         else
           false
