@@ -47,9 +47,12 @@ class PairResolver
 
 module.exports = PairResolver
 
+prettyJson = (string) ->
+  JSON.stringify string, null, 2
+
 arguments = process.argv.splice(2)
 new PairResolver().resolveDirectory(arguments[0], (errors, {queue, actions}) ->
-    console.log "Queue was: #{JSON.stringify queue}\n"
-    console.log "Errors were: #{JSON.stringify errors}\n"
-    console.log "Actions are: #{JSON.stringify actions}\n"
+    console.log "Queue was: #{prettyJson queue}\n"
+    console.log "Errors were: #{prettyJson errors}\n"
+    console.log "Actions are: #{prettyJson actions}\n"
 )
