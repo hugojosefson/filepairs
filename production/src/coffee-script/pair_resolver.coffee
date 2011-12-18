@@ -1,4 +1,5 @@
 Walker = require 'walker'
+path = require 'path'
 
 class PairResolver
   constructor: ->
@@ -27,6 +28,10 @@ class PairResolver
     )
     .on('file', (file, stat) ->
       console.log "Got file: #{file}"
+      if isJpeg file
+        queue.jpegs.push file
+      if isNef file
+        queue.nefs.push file
     )
     .on('error', (err, entry, stat) ->
       console.log "Got error #{err} on entry #{entry}"
@@ -36,6 +41,9 @@ class PairResolver
       console.log "All files traversed."
       cb()
     )
+
+    isJpeg = (file) -> path.extname(file) in ['.jpeg', '.jpg']
+    isNef = (file) -> path.extname(file) is '.nef'
 
 module.exports = PairResolver
 
