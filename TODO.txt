@@ -1,2 +1,13 @@
-Make it understand subdirectories.
-Give a result of where to move nefs, or delete if a nef is mentioned without destination.
+If the same jpeg is found in more than one place
+  remember all locations
+
+for each jpeg with more than one location
+  for each location which ends with /Originals
+    if there also is a same location without /Originals at the end
+      delete the /Originals location
+
+for each jpeg with more than one location
+  for each nef with same name
+    warn that nef is skipped, due to multiple jpeg locations
+    print multiple jpeg locations
+    remove nef
