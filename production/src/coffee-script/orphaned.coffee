@@ -1,3 +1,6 @@
+path = require 'path'
+fs = require 'fs'
+
 class Orphaned
   constructor: ->
     @jpegRegEx = /\.jpe?g$/i
@@ -26,10 +29,10 @@ class Orphaned
   findNewLocationForNefInJpegShorts: (nef, jpegShorts) ->
     @shortNef(nef) in jpegShorts
 
-  shortNef: (filename) -> filename.replace(@nefRegEx, '')
+  shortNef: (filename) ->
+    path.basename filename, '.nef'
 
   extractFilesFromDir: (dir) ->
-    fs = require 'fs'
     fs.readdirSync dir
 
 module.exports = Orphaned
