@@ -1,5 +1,6 @@
 Walker = require 'walker'
 path = require 'path'
+_ = require 'underscore'
 
 exports.resolveDirectory = (dirname = '.', cb = ->) ->
   
@@ -11,7 +12,7 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
 
   # What is left to handle.
   queue =
-    jpegShortNameToDirName: {}
+    jpegShortNameToDirNames: {}
     nefToShortName: {}
 
   # Key for each action is the nef path/filename.
@@ -34,7 +35,9 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
     if isJpeg file
       dirname = path.dirname file
       shortname = shortName file
-      queue.jpegShortNameToDirName[shortname] = dirname
+      if !queue.jpegShortNameToDirNames[shortname]
+        queue.jpegShortNameToDirNames[shortname] = []
+      queue.jpegShortNameToDirNames[shortname].push dirname
     if isNef file
       queue.nefToShortName[file] = shortName file
   )
@@ -50,6 +53,7 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
       console.log "No actions are defined."
     else
       console.log "All files traversed."
+      makeExceptionForPicasaOriginalsDirectories queue
       defineActions queue, actions
     cb(errors, {queue, actions})
   )
@@ -67,15 +71,29 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
   defineActions = (queue, actions) ->
     for nef, shortName of queue.nefToShortName
       console.log "defineActions: {nef, shortName} = #{JSON.stringify({nef, shortName})}"
-      if queue.jpegShortNameToDirName.hasOwnProperty(shortName)
-        jpegDirName = queue.jpegShortNameToDirName[shortName]
+      if queue.jpegShortNameToDirNames.hasOwnProperty(shortName)
+        jpegDirNames = queue.jpegShortNameToDirNames[shortName]
         nefDirName = path.dirname nef
-        if nefDirName == jpegDirName
+        if nefDirName in jpegDirNames
           # all good. nef and jpeg already in the same dir.
         else
-          actions[nef] = jpegDirName
+          if jpegDirNames.length == 1
+            actions[nef] = jpegDirNames[0]
+          else
+            dirsJson = JSON.stringify jpegDirNames, null, 2
+            console.log "Skipping #{nef} because corresponding jpeg is found in more than one directory: #{dirsJson}"
       else
         actions[nef] = null
+
+  makeExceptionForPicasaOriginalsDirectories = (queue) ->
+    for shortname, dirs of queue.jpegShortNameToDirNames when dirs?.length > 1
+      cleanDirs = _.reject dirs, (dir) ->
+        if /Originals$/.test(dir) && dir.replace(/\/?Originals$/, '') in dirs
+          console.log "Skipping #{shortname}.jpg in #{dir} because it's in the parent directory too."
+          true
+        else
+          false
+      queue.jpegShortNameToDirNames[shortname] = cleanDirs
 
   return
 
