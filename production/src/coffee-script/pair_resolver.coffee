@@ -25,23 +25,8 @@ class PairResolver
         return false
       return true
     )
-    .on('dir', (dir, stat) ->
-      console.log "Got directory: #{dir}"
-    )
     .on('file', (file, stat) ->
       console.log "Got file: #{file}"
-    )
-    .on('symlink', (symlink, stat) ->
-      console.log "Got symlink: #{symlink}"
-    )
-    .on('blockDevice', (blockDevice, stat) ->
-      console.log "Got blockDevice: #{blockDevice}"
-    )
-    .on('fifo', (socket, stat) ->
-      console.log "Got socket: #{socket}"
-    )
-    .on('characterDevice', (characterDevice, stat) ->
-      console.log "Got characterDevice: #{characterDevice}"
     )
     .on('error', (err, entry, stat) ->
       console.log "Got error #{err} on entry #{entry}"
