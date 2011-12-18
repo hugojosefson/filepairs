@@ -3,7 +3,7 @@ Walker = require 'walker'
 class PairResolver
   constructor: ->
 
-  resolveDirectory: (dirname = '.') ->
+  resolveDirectory: (dirname = '.', cb = ->) ->
     # What is left to handle.
     # Full path/filenames.
     queue =
@@ -49,6 +49,7 @@ class PairResolver
     )
     .on('end', () ->
       console.log "All files traversed."
+      cb()
     )
 
 module.exports = PairResolver
