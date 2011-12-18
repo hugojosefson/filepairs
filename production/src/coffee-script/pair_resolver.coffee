@@ -5,13 +5,10 @@ class PairResolver
 
   resolveDirectory: (dirname = '.') ->
     Walker(dirname).filterDir( (dir, stat) ->
-      if dir == '.git'
-        console.warn('Skipping .git and children')
+      if dir in ['.git', 'node_modules', '.idea']
+        console.warn("Skipping #{dir} and children")
         return false
       return true
-    )
-    .on('entry', (entry, stat) ->
-      console.log "Got entry: #{entry}"
     )
     .on('dir', (dir, stat) ->
       console.log "Got directory: #{dir}"
