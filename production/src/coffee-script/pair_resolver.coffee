@@ -10,10 +10,9 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
   nefRegEx = /\.nef$/i
 
   # What is left to handle.
-  # Full path/filenames.
   queue =
-    jpegShorts: []
-    nefs: []
+    jpegShortNameToDirName: {}
+    nefToShortName: {}
 
   # Key for each action is the nef path/filename.
   # Value is where to move it, or null to delete it.
@@ -33,9 +32,11 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
   .on('file', (file, stat) ->
     console.log "Got file: #{file}"
     if isJpeg file
-      queue.jpegShorts.push file.replace(jpegRegEx, '')
+      dirname = path.dirname file
+      shortname = shortName file
+      queue.jpegShortNameToDirName[shortname] = dirname
     if isNef file
-      queue.nefs.push file
+      queue.nefToShortName[file] = shortName file
   )
   .on('error', (err, entry, stat) ->
     console.log "Got error #{err} on entry #{entry}"
@@ -59,9 +60,22 @@ exports.resolveDirectory = (dirname = '.', cb = ->) ->
   isNef = (file) ->
     nefRegEx.test path.extname(file)
 
+  shortName = (file) ->
+    extension = path.extname file
+    path.basename file, extension
+
   defineActions = (queue, actions) ->
-    for nef in queue.nefs
-      null #TODO fill in actions
+    for nef, shortName of queue.nefToShortName
+      console.log "defineActions: {nef, shortName} = #{JSON.stringify({nef, shortName})}"
+      if queue.jpegShortNameToDirName.hasOwnProperty(shortName)
+        jpegDirName = queue.jpegShortNameToDirName[shortName]
+        nefDirName = path.dirname nef
+        if nefDirName == jpegDirName
+          # all good. nef and jpeg already in the same dir.
+        else
+          actions[nef] = jpegDirName
+      else
+        actions[nef] = null
 
   return
 
