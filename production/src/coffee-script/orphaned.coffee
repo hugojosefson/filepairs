@@ -31,3 +31,5 @@ class Orphaned
   extractFilesFromDir: (dir) ->
     fs = require 'fs'
     fs.readdirSync dir
+
+module.exports = Orphaned
