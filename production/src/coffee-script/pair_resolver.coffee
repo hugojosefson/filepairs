@@ -39,7 +39,7 @@ class PairResolver
     )
     .on('end', () ->
       console.log "All files traversed."
-      cb()
+      cb(errors, {queue, actions})
     )
 
     isJpeg = (file) -> path.extname(file) in ['.jpeg', '.jpg']
@@ -47,4 +47,9 @@ class PairResolver
 
 module.exports = PairResolver
 
-new PairResolver().resolveDirectory()
+arguments = process.argv.splice(2)
+new PairResolver().resolveDirectory(arguments[0], (errors, {queue, actions}) ->
+    console.log "Queue was: #{JSON.stringify queue}\n"
+    console.log "Errors were: #{JSON.stringify errors}\n"
+    console.log "Actions are: #{JSON.stringify actions}\n"
+)
