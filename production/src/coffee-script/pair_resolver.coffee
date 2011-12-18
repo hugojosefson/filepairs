@@ -4,6 +4,16 @@ class PairResolver
   constructor: ->
 
   resolveDirectory: (dirname = '.') ->
+    # What is left to handle.
+    # Full path/filenames.
+    queue =
+      jpegs: []
+      nefs: []
+
+    # Key for each action is the nef path/filename.
+    # Value is where to move it, or null to delete it.
+    actions = {}
+
     Walker(dirname).filterDir( (dir, stat) ->
       if dir in ['.git', 'node_modules', '.idea']
         console.warn("Skipping #{dir} and children")
