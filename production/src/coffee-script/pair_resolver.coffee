@@ -38,6 +38,8 @@ class PairResolver
       errors.push {err, entry, stat}
     )
     .on('end', () ->
+      if errors.length is 0
+        errors = null
       console.log "All files traversed."
       cb(errors, {queue, actions})
     )
