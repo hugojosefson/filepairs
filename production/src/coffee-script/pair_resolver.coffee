@@ -86,5 +86,11 @@ arguments = process.argv.splice(2)
 exports.resolveDirectory(arguments[0], (errors, {queue, actions}) ->
     console.log "Queue was: #{prettyJson queue}\n"
     console.log "Errors were: #{prettyJson errors}\n"
-    console.log "Actions are: #{prettyJson actions}\n"
+    console.log "Actions are: "
+    for nef, dir of actions
+      if dir
+        console.log "MOVE #{nef} TO #{dir}"
+      else
+        console.log "DELETE #{nef}"
+    console.log ""
 )
